@@ -1,0 +1,139 @@
+jobId: "197"
+jobName: Secondary Sales Cost Testing
+jobType: Source Aligned Data Product
+developerId: a7213db3-af1d-4810-ac21-e49160b82291
+domain: sale
+alias: Load_all_data_for_sale_test2_Persistant_2
+discoveryPort:
+  name: Secondary Sales Cost Testing Persistant - 2
+inputPorts:
+  - alias: Secondary_Sales_1
+    isDynamic: true
+    path: s3://bp-spark-sql-library-test-acc/secondary_sales_parquet/
+    optional:
+      persistDataFrame: false
+      advanceOptions:
+        mergeSchema: true
+      enableDataReconciliation: false
+      enforceSchema: false
+      connection: Base S3 Connectivity
+      dataSetUrn: urn:dv:dataset:5a075ca4-46b2-4988-ba1b-16c0cdf30f4f
+    type: inputParquet
+productState:
+  isDynamic: true
+  alias: Load_all_data_for_sale_test2
+  retentionVersions: ""
+  logicalSchema:
+    properties:
+      region:
+        type: STRING
+        description: Unique identifier for each region.
+        sourceColumn: region
+        sourceTable: "secondarysales"
+      zsmcode:
+        type: STRING
+        description: zsmcode
+        sourceColumn: zsmcode
+        sourceTable: "secondarysales"
+        isPII: true
+      zsmname:
+        type: STRING
+        description: zsmname
+        sourceColumn: zsmname
+        sourceTable: "secondarysales"
+        isPII: true
+      ahcode:
+        type: STRING
+        description: ahcode.
+        sourceColumn: ahcode
+        sourceTable: "secondarysales"
+        isPII: true
+      ahname:
+        type: STRING
+        description: ahname.
+        sourceColumn: ahname
+        sourceTable: "secondarysales"
+        isPII: true
+      asmname:
+        type: STRING
+        description: asmname
+        sourceColumn: asmname
+        sourceTable: "secondarysales"
+  ProductState:
+    isDynamic: true
+    alias: Load_all_data_for_sale_test2
+    retentionVersions: ""
+    logicalSchema:
+      properties:
+        region:
+          type: STRING
+          description: Unique identifier for each region.
+          sourceColumn: region
+          sourceTable: "secondarysales"
+        zsmcode:
+          type: STRING
+          description: zsmcode
+          sourceColumn: zsmcode
+          sourceTable: "secondarysales"
+          isPII: true
+        zsmname:
+          type: STRING
+          description: zsmname
+          sourceColumn: zsmname
+          sourceTable: "secondarysales"
+          isPII: true
+        ahcode:
+          type: STRING
+          description: ahcode.
+          sourceColumn: ahcode
+          sourceTable: "secondarysales"
+          isPII: true
+        ahname:
+          type: STRING
+          description: ahname.
+          sourceColumn: ahname
+          sourceTable: "secondarysales"
+          isPII: true
+        asmname:
+          type: STRING
+          description: asmname
+          sourceColumn: asmname
+          sourceTable: "secondarysales"
+  stateStoreType: loadDataIceberg
+  isProfilingEnabled: false
+  updateStrategy: Overwrite
+  tableName: s3source.secondary_sales_cost_testing
+  warehousePath: s3://cost-testing-s3
+  catalogName: s3Source
+  optional:
+    persistDataFrame: false
+    enableDataReconciliation: false
+    enforceSchema: false
+    enforceSchemaMethod: Warning
+    catalogType: glue
+  refreshInterval: "* * 5 * 5"
+transformation:
+  - isDynamic: true
+    alias: Spark_SQL_1
+    description: Read all data
+    sequence: 2
+    inputDataFrameList:
+      - inputDataFrame: Secondary_Sales_1
+        tempViewName: secondary_sales
+    query: select * from secondary_sales
+    optional:
+      persistDataFrame: false
+    type: operationThroughSqlQuery
+controlPort:
+  dataQualityRules:
+    NullValueCheck:
+      productState:
+        checks:
+          - column: retailername
+            expression: ==
+            number: 1
+          - column: statename
+            expression: ==
+            number: 1
+        referenceAlias: Load_all_data_for_sale_test2
+timeout: 5
