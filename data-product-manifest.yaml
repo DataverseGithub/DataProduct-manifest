@@ -17,7 +17,7 @@ inputPorts:
       enableDataReconciliation: false
       enforceSchema: false
       connection: Base S3 Connectivity
-      dataSetUrn: urn:dv:dataset:5a075ca4-46b2-4988-ba1b-16c0cdf30f4f
+      dataSetUrn: urn:dv:dataset:c7ed0e02-4a70-414e-accd-dc3cccf4f241
     type: inputParquet
 productState:
   isDynamic: true
